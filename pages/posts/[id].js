@@ -2,7 +2,9 @@ import Link from "next/link";
 import Head from "next/head";
 
 import Layout from "../../components/layout.js";
+import Date from "../../components/date";
 import { getPostIds, getPostData } from "../../lib/posts";
+import cssUtils from '../../styles/utils.module.scss'
 
 // Return a list of possible value for id
 export async function getStaticPaths() {
@@ -14,12 +16,12 @@ export async function getStaticPaths() {
 
 // Fetch necessary data for the blog post using params.id
 export async function getStaticProps({ params }) {
-  const postData = getPostData(params.id)
+  const postData = await getPostData(params.id);
   return {
     props: {
-      postData
-    }
-  }
+      postData,
+    },
+  };
 }
 
 export default function PostPage({ postData }) {
@@ -29,9 +31,13 @@ export default function PostPage({ postData }) {
         <title>{postData.title}</title>
       </Head>
 
-      <h1>{postData.title}</h1>
-      <p>{postData.id}</p>
-      <p>{postData.date}</p>
+      <article>
+        <h1 className={cssUtils.headingXl}>{postData.title}</h1>
+        <div className={cssUtils.lightText}>
+          <Date dateString={postData.date} />
+        </div>
+        <div dangerouslySetInnerHTML={{ __html: postData.contentHtml }} />
+      </article>
     </Layout>
   );
 }

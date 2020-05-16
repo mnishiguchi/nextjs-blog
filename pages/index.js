@@ -2,10 +2,11 @@ import Head from "next/head";
 import Link from "next/link";
 
 import Layout, { siteTitle } from "../components/layout";
+import Date from "../components/date";
 import cssUtils from "../styles/utils.module.scss";
 import { getPostsData } from "../lib/posts";
 
-export async function getStaticProps() {
+export function getStaticProps() {
   return {
     props: {
       postsData: getPostsData(),
@@ -30,11 +31,13 @@ export default function HomePage({ postsData }) {
           {postsData.map(({ id, date, title }) => (
             <li className={cssUtils.listItem} key={id}>
               <h4>
-                <Link href={`/posts/${id}`}>
+                <Link href="/posts/[id]" as={`/posts/${id}`}>
                   <a>{title}</a>
                 </Link>
                 <br />
-                <small>{date}</small>
+                <small className={cssUtils.lightText}>
+                  <Date dateString={date} />
+                </small>
               </h4>
             </li>
           ))}
