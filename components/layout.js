@@ -7,7 +7,7 @@ import cssUtils from "../styles/utils.module.scss";
 const name = "Masa";
 export const siteTitle = "Masatoshi Nishiguchi";
 
-export default ({ children, home }) => {
+export default function Layout({ children, home }) {
   return (
     <div className={css.container}>
       <Head>
@@ -54,4 +54,4 @@ export default ({ children, home }) => {
       )}
     </div>
   );
-};
+}
