@@ -3,18 +3,17 @@ import Link from "next/link";
 
 import Layout, { siteTitle } from "../components/layout";
 import cssUtils from "../styles/utils.module.scss";
-import { getSortedPostsData } from "../lib/posts";
+import { getPostsData } from "../lib/posts";
 
 export async function getStaticProps() {
-  const allPostsData = getSortedPostsData();
   return {
     props: {
-      allPostsData,
+      postsData: getPostsData(),
     },
   };
 }
 
-export default function HomePage({ allPostsData }) {
+export default function HomePage({ postsData }) {
   return (
     <Layout home>
       <Head>
@@ -28,13 +27,15 @@ export default function HomePage({ allPostsData }) {
       <section className={`${cssUtils.headingMd} ${cssUtils.padding1px}`}>
         <h2 className={cssUtils.headingLg}>Blog</h2>
         <ul className={cssUtils.list}>
-          {allPostsData.map(({ id, date, title }) => (
+          {postsData.map(({ id, date, title }) => (
             <li className={cssUtils.listItem} key={id}>
-              {title}
-              <br />
-              {id}
-              <br />
-              {date}
+              <h4>
+                <Link href={`/posts/${id}`}>
+                  <a>{title}</a>
+                </Link>
+                <br />
+                <small>{date}</small>
+              </h4>
             </li>
           ))}
         </ul>
